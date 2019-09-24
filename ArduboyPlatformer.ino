@@ -1,5 +1,6 @@
 #include <Arduboy2.h>
-#include "player.h"
+#include "player_sprite.h"
+#include "player/player.h"
 #include "tileset.h"
 #include "test_map.h"
 
@@ -7,15 +8,19 @@ Arduboy2 a;
 Sprites s;
 long lastMillis;
 int counter;
+Player p;
 
 void setup() {
 	a.begin();
   lastMillis = millis();
+  p.pos = { 16, 16 };
 }
 
 
 void loop() {
 	a.clear();
+  float delta = (millis() - lastMillis) / 1000.0f;
+  lastMillis = millis();
   for (size_t x = 0; x < 10; x++) {
     a.drawFastHLine(0, 10 * x, 200);
   }
@@ -33,10 +38,9 @@ void loop() {
       }
     }
   }
-  s.drawExternalMask(0, 16, player, player_mask, counter, counter);
-  if (millis() - lastMillis >= 250) {
-    counter = (counter + 1) % 6;
-    lastMillis = millis();
-  }
+  updatePlayer(&p, delta);
+  s.drawExternalMask(p.pos.x, p.pos.y, player_sprite, player_sprite_mask, counter, counter);
+  a.setCursor(0, 0);
+  a.print(delta * 1000.0f);
 	a.display();
 }
