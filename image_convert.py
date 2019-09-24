@@ -1,14 +1,7 @@
 from PIL import Image
 import sys
 import math
-
-def to_c_code(nums, name, include_size):
-  return 'const unsigned char PROGMEM %s[] = {%s %s};' % (
-    name, 
-    ('0x10, 0x10,' if include_size else ''),
-    ','.join(list(map(lambda x: str(hex(int(x))), nums)))
-  )
-
+from convert_utils import to_c_code, binary_to_hex_array
 
 # convert some images into the arduboy format
 def convert_image(src, dest):
@@ -29,18 +22,8 @@ def convert_image(src, dest):
             data.append(0);
           else:
             data.append(1)
-  byte_data = []
-  byte_mask = []
-
-  # Build an integer for every 8 bits/1 byte
-  for i in range(math.floor(len(data) / 8)):
-    data_v = 0
-    mask_v = 0
-    for x in range(8):
-      data_v += math.pow(2, x) * data[i * 8 + x]
-      mask_v += math.pow(2, x) * mask[i * 8 + x]
-    byte_data.append(data_v)
-    byte_mask.append(mask_v)
+  byte_data = binary_to_hex_array(data)
+  byte_mask = binary_to_hex_array(mask)
   # Build the string to write
   data_string = to_c_code(byte_data, dest.split('.')[0] , True)
   mask_string = to_c_code(byte_mask, '%s_mask' % dest.split('.')[0], False)
