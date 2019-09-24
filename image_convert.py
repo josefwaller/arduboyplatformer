@@ -9,19 +9,24 @@ def convert_image(src, dest):
   size = i.size
   data = []
   mask = []
-  for j in range(math.floor(size[1] / 8)):
-    for x in range(size[0]):
-      for y in range(8):
-        c = i.getpixel((x, 8 * j + y))
-        if c[3] == 0:
-          mask.append(0)
-          data.append(0)
-        else:
-          mask.append(1)
-          if c == (0, 0, 0, 255):
-            data.append(0);
-          else:
-            data.append(1)
+  # Do every 16x16 block in order
+  for img_y in range(math.floor(size[1] / 16)):
+      for img_x in range(math.floor(size[0] / 16)):
+          # Add the block in rows of 8 pixels each
+          # 2 rows of 8 pixel high blocks
+          for j in range(2):
+            for x in range(16):
+              for y in range(8):
+                c = i.getpixel((img_x * 16 + x, img_y * 16 + 8 * j + y))
+                if c[3] == 0:
+                  mask.append(0)
+                  data.append(0)
+                else:
+                  mask.append(1)
+                  if c == (0, 0, 0, 255):
+                    data.append(0);
+                  else:
+                    data.append(1)
   byte_data = binary_to_hex_array(data)
   byte_mask = binary_to_hex_array(mask)
   # Build the string to write
