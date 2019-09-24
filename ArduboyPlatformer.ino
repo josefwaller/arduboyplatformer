@@ -1,5 +1,6 @@
 #include <Arduboy2.h>
 #include "player.h"
+#include "tileset.h"
 
 Arduboy2 a;
 Sprites s;
