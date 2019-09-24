@@ -20,6 +20,10 @@ void loop() {
   for (size_t y = 0; y < 16; y++) {
     a.drawFastVLine(16 * y, 0, 100);
   }
-  s.drawExternalMask(0, 16, player, player_mask, 0, 0);
+  s.drawExternalMask(0, 16, player, player_mask, counter, counter);
+  if (millis() - lastMillis >= 250) {
+    counter = (counter + 1) % 6;
+    lastMillis = millis();
+  }
 	a.display();
 }
