@@ -1,7 +1,8 @@
 import math
 
-def to_c_code(nums, name, include_size):
-  return 'const unsigned char PROGMEM %s[] = {%s %s};' % (
+def to_c_code(nums, name, include_size, in_progmem=True):
+  return 'const unsigned char %s %s[] = {%s %s};' % (
+    ('PROGMEM' if in_progmem else ''),
     name, 
     ('0x10, 0x10,' if include_size else ''),
     ','.join(nums)
