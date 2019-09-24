@@ -1,6 +1,5 @@
 #include <Arduboy2.h>
-#include "test.h"
-#include "test_mask.h"
+#include "player.h"
 
 Arduboy2 a;
 Sprites s;
@@ -21,7 +20,6 @@ void loop() {
   for (size_t y = 0; y < 16; y++) {
     a.drawFastVLine(16 * y, 0, 100);
   }
-  s.drawExternalMask(0, 16, test_bin, test_mbin, 0, 0);
-  a.print(counter);
+  s.drawExternalMask(0, 16, player, player_mask, 0, 0);
 	a.display();
 }
