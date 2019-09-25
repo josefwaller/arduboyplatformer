@@ -41,7 +41,7 @@ void loop() {
       }
     }
   }
-  updatePlayer(&p, delta);
+  updatePlayer(&p, &info, delta);
   s.drawExternalMask(p.pos.x, p.pos.y, player_sprite, player_sprite_mask, counter, counter);
   a.setCursor(0, 0);
   a.print(delta * 1000.0f);
