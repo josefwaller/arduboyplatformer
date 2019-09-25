@@ -35,8 +35,8 @@ void updatePlayer(Player* p, Info* i, float delta) {
   i->arduboy->print(p->vel.y * 100);
   i->arduboy->setCursor(70, 0);
   i->arduboy->print(p->pos.y);
-  i->arduboy->setCursor(110, 0);
-  i->arduboy->print(p->isGrounded);
+  i->arduboy->setCursor(0, 20);
+  i->arduboy->print(p->pos.y + p->size.y);
 };
 
 // Just moves the player based on their velocity
@@ -46,23 +46,11 @@ void tryToMove(Player* p, Info* i, float delta) {
   size_t roundedY = floor(p->pos.y / 16.0f);
   size_t roundedXS = floor((p->pos.x + p->size.x) / 16.0f);
   size_t roundedYS = floor((p->pos.y + p->size.y) / 16.0f);
-/*  if (p->vel.y > 0) {
-    // check if the new position is stil valid
-    uint8_t tile = i->map[(16 * (roundedY + 1) + roundedX)];
-    if (tile != 0xFF) {
-      p->vel.y = 0.0f;
-      p->isGrounded = true;
-    } else {
-      p->pos.y += p->vel.y * delta;
-    }
-  } else if (p->vel.y < 0) {
-    uint8_t tile = i->map[16 * roundedY + roundedX];
-    if (tile != 0xff) {
-      p->vel.y = 0.0f;
-    } else {
-      p->pos.y += p->vel.y * delta;
-    }
-  }*/
+  i->arduboy->setCursor(110, 0);
+  i->arduboy->print(roundedYS);
+  i->arduboy->setCursor(110, 40);
+  i->arduboy->print(roundedY);
+  // Compute the new Y
   if (p->vel.y != 0) {
     float newYPos = p->pos.y + p->vel.y * delta;
     size_t newRoundedY;
@@ -71,17 +59,28 @@ void tryToMove(Player* p, Info* i, float delta) {
     } else {
       newRoundedY = floor((newYPos + p->size.y) / 16.0f);
     }
-    uint8_t tile = i->map[16 * newRoundedY + roundedX];
-    uint8_t tile2 = i->map[16 * newRoundedY + roundedXS];
-    if (tile != 0xFF || tile2 != 0xFF) {
-      if (p->vel.y > 0) {
-        p->isGrounded = true;
-      }
-      p->vel.y = 0;
-    } else {
+    if (newRoundedY == roundedY) {
       p->pos.y = newYPos;
+    } else {
+      uint8_t tile = i->map[16 * newRoundedY + roundedX];
+      uint8_t tile2 = i->map[16 * newRoundedY + roundedXS];
+      if (tile != 0xFF || tile2 != 0xFF) {
+        if (p->vel.y > 0) {
+          // The only y specific thing here
+          p->isGrounded = true;
+          p->pos.y = newRoundedY * 16 - p->size.y - 1;
+        } else {
+          p->pos.y = newRoundedY * 16 + 16;
+        }
+        p->vel.y = 0;
+      } else {
+        p->pos.y = newYPos;
+      }
     }
   }
+  // Compute the new X
+  // Since this is pretty much doing the same thing as above, maybe find some
+  // way to abstract it?
   if (p->vel.x != 0) {
     float newXPos = p->pos.x + p->vel.x * delta;
     size_t newRoundedX;
@@ -94,6 +93,11 @@ void tryToMove(Player* p, Info* i, float delta) {
       uint8_t tile = i->map[16 * roundedY + newRoundedX];
       uint8_t tile2 = i->map[16 * roundedYS + newRoundedX];
       if (tile != 0xFF || tile2 != 0xFF) {
+        if (p->vel.x > 0) {
+          p->pos.x = newRoundedX * 16 - 1 - p->size.x;
+        } else {
+          p->pos.x = newRoundedX * 16 + 16;
+        }
         p->vel.x = 0;
       } else {
         p->pos.x = newXPos;
