@@ -4,7 +4,7 @@
 
 struct Player {
   v2 pos;
-  v2 mom;
+  v2 vel;
   bool isGrounded;
 };
 
