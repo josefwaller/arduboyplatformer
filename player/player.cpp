@@ -1,4 +1,5 @@
 #include "player/player.h"
+#include "player_sprite.h"
 #include <stdint.h>
 #include <Arduboy2.h>
 #include <math.h>
@@ -106,4 +107,9 @@ void tryToMove(Player* p, Info* i, float delta) {
       p->pos.x = newXPos;
     }
   }
+}
+void drawPlayer(Player* p, Info* i) {
+  v2 off = { -2, -5 };
+  Sprites::drawExternalMask(p->pos.x + off.x, p->pos.y + off.y, player_sprite, player_sprite_mask, 1, 1);
+  i->arduboy->drawRect(p->pos.x, p->pos.y, p->size.x, p->size.y);
 }

@@ -1,5 +1,4 @@
 #include <Arduboy2.h>
-#include "player_sprite.h"
 #include "player/player.h"
 #include "tileset.h"
 #include "test_map.h"
@@ -44,10 +43,8 @@ void loop() {
     }
   }
   updatePlayer(&p, &info, delta);
-  v2 off = { -2, -5 };
-  s.drawExternalMask(p.pos.x + off.x, p.pos.y + off.y, player_sprite, player_sprite_mask, counter, counter);
-  a.drawRect(p.pos.x, p.pos.y, p.size.x, p.size.y);
   a.setCursor(0, 0);
   a.print(delta * 1000.0f);
+  drawPlayer(&p, &info);
 	a.display();
 }

@@ -7,7 +7,9 @@ struct Player {
   v2 vel;
   v2 size;
   bool isGrounded;
+  uint8_t animState;
 };
 
 void updatePlayer(Player* p, Info* i, float delta);
+void drawPlayer(Player* p, Info* i);
 void tryToMove(Player* p, Info* i, float delta);
