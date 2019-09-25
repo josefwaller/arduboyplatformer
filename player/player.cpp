@@ -44,7 +44,9 @@ void updatePlayer(Player* p, Info* i, float delta) {
 void tryToMove(Player* p, Info* i, float delta) {
   size_t roundedX = floor(p->pos.x / 16.0f);
   size_t roundedY = floor(p->pos.y / 16.0f);
-  if (p->vel.y > 0) {
+  size_t roundedXS = floor((p->pos.x + p->size.x) / 16.0f);
+  size_t roundedYS = floor((p->pos.y + p->size.y) / 16.0f);
+/*  if (p->vel.y > 0) {
     // check if the new position is stil valid
     uint8_t tile = i->map[(16 * (roundedY + 1) + roundedX)];
     if (tile != 0xFF) {
@@ -60,13 +62,37 @@ void tryToMove(Player* p, Info* i, float delta) {
     } else {
       p->pos.y += p->vel.y * delta;
     }
+  }*/
+  if (p->vel.y != 0) {
+    float newYPos = p->pos.y + p->vel.y * delta;
+    size_t newRoundedY;
+    if (p->vel.y < 0) {
+      newRoundedY = floor(newYPos / 16.0f);
+    } else {
+      newRoundedY = floor((newYPos + p->size.y) / 16.0f);
+    }
+    uint8_t tile = i->map[16 * newRoundedY + roundedX];
+    uint8_t tile2 = i->map[16 * newRoundedY + roundedXS];
+    if (tile != 0xFF || tile2 != 0xFF) {
+      if (p->vel.y > 0) {
+        p->isGrounded = true;
+      }
+      p->vel.y = 0;
+    } else {
+      p->pos.y = newYPos;
+    }
   }
   if (p->vel.x != 0) {
     float newXPos = p->pos.x + p->vel.x * delta;
-    size_t newRoundedX = floor(newXPos / 16.0f);
+    size_t newRoundedX;
+    if (p->vel.x < 0) {
+      newRoundedX = floor(newXPos / 16.0f);
+    } else {
+      newRoundedX = floor((newXPos + p->size.x) / 16.0f);
+    }
     if (newRoundedX != roundedX) {
       uint8_t tile = i->map[16 * roundedY + newRoundedX];
-      uint8_t tile2 = i->map[16 * (roundedY + 1) + newRoundedX];
+      uint8_t tile2 = i->map[16 * roundedYS + newRoundedX];
       if (tile != 0xFF || tile2 != 0xFF) {
         p->vel.x = 0;
       } else {

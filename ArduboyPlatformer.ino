@@ -15,7 +15,8 @@ Info info;
 void setup() {
 	a.begin();
   lastMillis = millis();
-  p.pos = { 16, 16 };
+  p.pos = { 33, 16 };
+  p.size = { 12, 11 };
   info.map = test_map;
   info.arduboy = &a;
 }
@@ -43,7 +44,9 @@ void loop() {
     }
   }
   updatePlayer(&p, &info, delta);
-  s.drawExternalMask(p.pos.x, p.pos.y, player_sprite, player_sprite_mask, counter, counter);
+  v2 off = { -2, -5 };
+  s.drawExternalMask(p.pos.x + off.x, p.pos.y + off.y, player_sprite, player_sprite_mask, counter, counter);
+  a.drawRect(p.pos.x, p.pos.y, p.size.x, p.size.y);
   a.setCursor(0, 0);
   a.print(delta * 1000.0f);
 	a.display();
