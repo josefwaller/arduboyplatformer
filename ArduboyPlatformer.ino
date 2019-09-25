@@ -17,6 +17,7 @@ void setup() {
   lastMillis = millis();
   p.pos = { 16, 16 };
   info.map = test_map;
+  info.arduboy = &a;
 }
 
 
@@ -25,7 +26,7 @@ void loop() {
   float delta = (millis() - lastMillis) / 1000.0f;
   lastMillis = millis();
   for (size_t x = 0; x < 10; x++) {
-    a.drawFastHLine(0, 10 * x, 200);
+    a.drawFastHLine(0, 16 * x, 200);
   }
   for (size_t y = 0; y < 16; y++) {
     a.drawFastVLine(16 * y, 0, 100);

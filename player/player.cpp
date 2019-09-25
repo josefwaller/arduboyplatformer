@@ -1,5 +1,6 @@
 #include "player/player.h"
 #include <stdint.h>
+#include <Arduboy2.h>
 
 
 void updatePlayer(Player* p, Info* i, float delta) {
@@ -13,4 +14,10 @@ void updatePlayer(Player* p, Info* i, float delta) {
     p->mom.y += 100 * delta;
   }
   p->pos.y += p->mom.y * delta;
+  if (i->arduboy->pressed(RIGHT_BUTTON)) {
+    p->pos.x += 20 * delta;
+  }
+  if (i->arduboy->pressed(LEFT_BUTTON)) {
+    p->pos.x -= 20 * delta;
+  }
 };
