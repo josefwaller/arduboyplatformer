@@ -25,11 +25,16 @@ void updatePlayer(Player* p, Info* i, float delta) {
     p->vel.y += 50 * delta;
   }
   p->vel.x = 0;
+  p->isRunning = false;
   if (i->arduboy->pressed(RIGHT_BUTTON)) {
-    p->vel.x = 20;
+    p->vel.x = 40;
+    p->isRunning = true;
+    updateAnimation(&p->anim, 150, 3);
   }
   if (i->arduboy->pressed(LEFT_BUTTON)) {
-    p->vel.x = -20;
+    p->vel.x = -40;
+    p->isRunning = true;
+    updateAnimation(&p->anim, 150, 3);
   }
   tryToMove(p, i, delta);
   i->arduboy->setCursor(32, 0);
@@ -110,6 +115,13 @@ void tryToMove(Player* p, Info* i, float delta) {
 }
 void drawPlayer(Player* p, Info* i) {
   v2 off = { -2, -5 };
-  Sprites::drawExternalMask(p->pos.x + off.x, p->pos.y + off.y, player_sprite, player_sprite_mask, 1, 1);
-  i->arduboy->drawRect(p->pos.x, p->pos.y, p->size.x, p->size.y);
+  uint8_t state;
+  if (!p->isGrounded)
+    state = PLAYER_JUMP;
+  else if (p->isRunning)
+    state = p->anim.animState + 1;
+  else
+    state = PLAYER_STAND;
+  Sprites::drawExternalMask(p->pos.x + off.x, p->pos.y + off.y, player_sprite, player_sprite_mask, state, state);
+//  i->arduboy->drawRect(p->pos.x, p->pos.y, p->size.x, p->size.y);
 }
