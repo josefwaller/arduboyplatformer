@@ -9,3 +9,4 @@ struct Player {
 };
 
 void updatePlayer(Player* p, Info* i, float delta);
+void tryToMove(Player* p, Info* i, float delta);

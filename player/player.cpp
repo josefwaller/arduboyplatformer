@@ -6,13 +6,23 @@
 
 void updatePlayer(Player* p, Info* i, float delta) {
   if (p->isGrounded) {
-    i->arduboy->setCursor(0, 50);
-    i->arduboy->print(i->arduboy->pressed(A_BUTTON));
     if (i->arduboy->pressed(A_BUTTON)) {
       p->isGrounded = false;
       p->mom.y = -50;
     }
   } else {
+  }
+  if (i->arduboy->pressed(RIGHT_BUTTON)) {
+    p->pos.x += 20 * delta;
+  }
+  if (i->arduboy->pressed(LEFT_BUTTON)) {
+    p->pos.x -= 20 * delta;
+  }
+  tryToMove(p, i, delta);
+};
+
+void tryToMove(Player* p, Info* i, float delta) {
+  if (!p->isGrounded) {
     // Move the player down
     float rounded = p->pos.y / 16.0f;
     p->mom.y += 50.0f * delta;
@@ -28,12 +38,13 @@ void updatePlayer(Player* p, Info* i, float delta) {
       p->mom.y = 0;
       p->isGrounded = true;
     }
+  } else {
+    // Check if p has become not grounded
+    int roundedX = floor(p->pos.x / 16.0f);
+    int roundedY = floor(p->pos.y / 16.0f) + 1;
+    uint8_t tile = i->map[16 * roundedX + roundedY];
+    if (tile == 0xFF) {
+      p->isGrounded = false;
+    }
   }
-  if (i->arduboy->pressed(RIGHT_BUTTON)) {
-    p->pos.x += 20 * delta;
-  }
-  if (i->arduboy->pressed(LEFT_BUTTON)) {
-    p->pos.x -= 20 * delta;
-  }
-
-};
+}
