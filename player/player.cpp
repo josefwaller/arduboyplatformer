@@ -10,10 +10,10 @@ void updatePlayer(Player* p, Info* i, float delta) {
     // Check if p has become not grounded
     int roundedX = floor(p->pos.x / 16.0f);
     int roundedY = floor(p->pos.y / 16.0f) + 1;
+    int roundedXS = floor((p->pos.x + p->size.x) / 16.0f);
     uint8_t tile = i->map[16 * roundedY + roundedX];
-    i->arduboy->setCursor(0, 40);
-    i->arduboy->print(tile);
-    if (tile == 0xFF) {
+    uint8_t tile2 = i->map[16 * roundedY + roundedXS];
+    if (tile == 0xFF && tile2 == 0xFF) {
       p->isGrounded = false;
     }
     // Check if the player is jumping
