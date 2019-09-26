@@ -19,10 +19,14 @@ void updatePlayer(Player* p, Info* i, float delta) {
     // Check if the player is jumping
     if (i->arduboy->pressed(A_BUTTON)) {
       p->isGrounded = false;
-      p->vel.y = -50;
+      p->vel.y = -100;
     }
   } else {
-    p->vel.y += 50 * delta;
+    if (i->arduboy->pressed(A_BUTTON)) {
+      p->vel.y += 150 * delta;
+    } else {
+      p->vel.y += 300 * delta;
+    }
   }
   p->vel.x = 0;
   p->isRunning = false;
@@ -114,7 +118,7 @@ void tryToMove(Player* p, Info* i, float delta) {
   }
 }
 void drawPlayer(Player* p, Info* i) {
-  v2 off = { -2, -5 };
+  v2 off = { -2, -4 };
   uint8_t state;
   if (!p->isGrounded)
     state = PLAYER_JUMP;
