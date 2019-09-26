@@ -3,12 +3,14 @@
 #include "tileset.h"
 #include "test_map.h"
 #include "utils/info.h"
+#include "enemies/walking_enemy.h"
 
 Arduboy2 a;
 Sprites s;
 long lastMillis;
 int counter;
 Player p;
+WalkingEnemy we;
 Info info;
 
 void setup() {
@@ -16,6 +18,7 @@ void setup() {
   lastMillis = millis();
   p.pos = { 33, 16 };
   p.size = { 12, 11 };
+  we.pos = { 64, 32 };
   info.map = test_map;
   info.arduboy = &a;
 }
@@ -46,5 +49,6 @@ void loop() {
   a.setCursor(0, 0);
   a.print(delta * 1000.0f);
   drawPlayer(&p, &info);
+  drawWalkingEnemy(&we, &info);
 	a.display();
 }
