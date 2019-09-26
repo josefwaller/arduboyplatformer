@@ -18,7 +18,8 @@ void setup() {
   lastMillis = millis();
   p.pos = { 33, 16 };
   p.size = { 12, 11 };
-  we.pos = { 64, 32 };
+  we.pos = { 65, 33 };
+  we.vel = { 20, 0 };
   info.map = test_map;
   info.arduboy = &a;
 }
@@ -46,6 +47,7 @@ void loop() {
     }
   }
   updatePlayer(&p, &info, delta);
+  updateWalkingEnemy(&we, &info, delta);
   a.setCursor(0, 0);
   a.print(delta * 1000.0f);
   drawPlayer(&p, &info);
