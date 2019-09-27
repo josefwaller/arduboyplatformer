@@ -8,9 +8,9 @@
 void updatePlayer(Player* p, Info* i, float delta) {
   if (p->isGrounded) {
     // Check if p has become not grounded
-    int roundedX = floor(p->pos.x / 16.0f);
-    int roundedY = floor(p->pos.y / 16.0f) + 1;
-    int roundedXS = floor((p->pos.x + p->size.x) / 16.0f);
+    int roundedX = floor(p->bb.pos.x / 16.0f);
+    int roundedY = floor(p->bb.pos.y / 16.0f) + 1;
+    int roundedXS = floor((p->bb.pos.x + p->bb.size.x) / 16.0f);
     uint8_t tile = i->map[16 * roundedY + roundedX];
     uint8_t tile2 = i->map[16 * roundedY + roundedXS];
     if (tile == 0xFF && tile2 == 0xFF) {
@@ -44,33 +44,33 @@ void updatePlayer(Player* p, Info* i, float delta) {
   i->arduboy->setCursor(32, 0);
   i->arduboy->print(p->vel.y * 100);
   i->arduboy->setCursor(70, 0);
-  i->arduboy->print(p->pos.y);
+  i->arduboy->print(p->bb.pos.y);
   i->arduboy->setCursor(0, 20);
-  i->arduboy->print(p->pos.y + p->size.y);
+  i->arduboy->print(p->bb.pos.y + p->bb.size.y);
 };
 
 // Just moves the player based on their velocity
 // But will stop them from colliding with things
 void tryToMove(Player* p, Info* i, float delta) {
-  size_t roundedX = floor(p->pos.x / 16.0f);
-  size_t roundedY = floor(p->pos.y / 16.0f);
-  size_t roundedXS = floor((p->pos.x + p->size.x) / 16.0f);
-  size_t roundedYS = floor((p->pos.y + p->size.y) / 16.0f);
+  size_t roundedX = floor(p->bb.pos.x / 16.0f);
+  size_t roundedY = floor(p->bb.pos.y / 16.0f);
+  size_t roundedXS = floor((p->bb.pos.x + p->bb.size.x) / 16.0f);
+  size_t roundedYS = floor((p->bb.pos.y + p->bb.size.y) / 16.0f);
   i->arduboy->setCursor(110, 0);
   i->arduboy->print(roundedYS);
   i->arduboy->setCursor(110, 40);
   i->arduboy->print(roundedY);
   // Compute the new Y
   if (p->vel.y != 0) {
-    float newYPos = p->pos.y + p->vel.y * delta;
+    float newYPos = p->bb.pos.y + p->vel.y * delta;
     size_t newRoundedY;
     if (p->vel.y < 0) {
       newRoundedY = floor(newYPos / 16.0f);
     } else {
-      newRoundedY = floor((newYPos + p->size.y) / 16.0f);
+      newRoundedY = floor((newYPos + p->bb.size.y) / 16.0f);
     }
     if (newRoundedY == roundedY) {
-      p->pos.y = newYPos;
+      p->bb.pos.y = newYPos;
     } else {
       uint8_t tile = i->map[16 * newRoundedY + roundedX];
       uint8_t tile2 = i->map[16 * newRoundedY + roundedXS];
@@ -78,13 +78,13 @@ void tryToMove(Player* p, Info* i, float delta) {
         if (p->vel.y > 0) {
           // The only y specific thing here
           p->isGrounded = true;
-          p->pos.y = newRoundedY * 16 - p->size.y - 1;
+          p->bb.pos.y = newRoundedY * 16 - p->bb.size.y - 1;
         } else {
-          p->pos.y = newRoundedY * 16 + 16;
+          p->bb.pos.y = newRoundedY * 16 + 16;
         }
         p->vel.y = 0;
       } else {
-        p->pos.y = newYPos;
+        p->bb.pos.y = newYPos;
       }
     }
   }
@@ -92,28 +92,28 @@ void tryToMove(Player* p, Info* i, float delta) {
   // Since this is pretty much doing the same thing as above, maybe find some
   // way to abstract it?
   if (p->vel.x != 0) {
-    float newXPos = p->pos.x + p->vel.x * delta;
+    float newXPos = p->bb.pos.x + p->vel.x * delta;
     size_t newRoundedX;
     if (p->vel.x < 0) {
       newRoundedX = floor(newXPos / 16.0f);
     } else {
-      newRoundedX = floor((newXPos + p->size.x) / 16.0f);
+      newRoundedX = floor((newXPos + p->bb.size.x) / 16.0f);
     }
     if (newRoundedX != roundedX) {
       uint8_t tile = i->map[16 * roundedY + newRoundedX];
       uint8_t tile2 = i->map[16 * roundedYS + newRoundedX];
       if (tile != 0xFF || tile2 != 0xFF) {
         if (p->vel.x > 0) {
-          p->pos.x = newRoundedX * 16 - 1 - p->size.x;
+          p->bb.pos.x = newRoundedX * 16 - 1 - p->bb.size.x;
         } else {
-          p->pos.x = newRoundedX * 16 + 16;
+          p->bb.pos.x = newRoundedX * 16 + 16;
         }
         p->vel.x = 0;
       } else {
-        p->pos.x = newXPos;
+        p->bb.pos.x = newXPos;
       }
     } else {
-      p->pos.x = newXPos;
+      p->bb.pos.x = newXPos;
     }
   }
 }
@@ -126,6 +126,6 @@ void drawPlayer(Player* p, Info* i) {
     state = p->anim.animState + 1;
   else
     state = PLAYER_STAND;
-  Sprites::drawExternalMask(p->pos.x + off.x, p->pos.y + off.y, player_sprite, player_sprite_mask, state, state);
-//  i->arduboy->drawRect(p->pos.x, p->pos.y, p->size.x, p->size.y);
+  Sprites::drawExternalMask(p->bb.pos.x + off.x, p->bb.pos.y + off.y, player_sprite, player_sprite_mask, state, state);
+//  i->arduboy->drawRect(p->bb.pos.x, p->bb.pos.y, p->bb.size.x, p->bb.size.y);
 }

@@ -3,11 +3,11 @@
 #include <Arduboy2.h>
 
 void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta) {
-  float newX = w->pos.x + w->vel.x * delta;
+  float newX = w->bb.pos.x + w->vel.x * delta;
   int roundedX = floor(newX / 16.0f);
   if (w->vel.x > 0)
     roundedX++;
-  int roundedY = floor(w->pos.y / 16.0f);
+  int roundedY = floor(w->bb.pos.y / 16.0f);
   uint8_t tile = i->map[16 * (roundedY + 1) + roundedX];
   // Check if the enemy is hitting a wall or walking off an edge
   if (tile == 0xFF) {
@@ -16,9 +16,9 @@ void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta) {
   } else {
     i->arduboy->setCursor(40, 40);
     i->arduboy->print(tile);
-    w->pos.x = newX;
+    w->bb.pos.x = newX;
   }
 }
 void drawWalkingEnemy(WalkingEnemy* w, Info* i) {
-  Sprites::drawExternalMask(w->pos.x, w->pos.y, walking_enemy_sprite, walking_enemy_sprite_mask, 0, 0);
+  Sprites::drawExternalMask(w->bb.pos.x, w->bb.pos.y, walking_enemy_sprite, walking_enemy_sprite_mask, 0, 0);
 }

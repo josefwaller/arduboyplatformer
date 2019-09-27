@@ -1,9 +1,10 @@
 #pragma once
 #include "../utils/vector2.h"
 #include "../utils/info.h"
+#include "../utils/bounding_box.h"
 
 struct WalkingEnemy {
-  v2 pos;
+  BoundingBox bb;
   v2 vel;
 };
 

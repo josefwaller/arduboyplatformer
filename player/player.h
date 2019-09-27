@@ -1,12 +1,12 @@
 #pragma once
 #include "../utils/vector2.h"
 #include "../utils/info.h"
+#include "../utils/bounding_box.h"
 #include "../animation/animation.h"
 
 struct Player {
-  v2 pos;
+  BoundingBox bb;
   v2 vel;
-  v2 size;
   bool isGrounded;
   bool isRunning;
   Animation anim;

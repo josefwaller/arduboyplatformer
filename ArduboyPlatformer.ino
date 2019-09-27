@@ -16,9 +16,9 @@ Info info;
 void setup() {
 	a.begin();
   lastMillis = millis();
-  p.pos = { 33, 16 };
-  p.size = { 12, 11 };
-  we.pos = { 65, 33 };
+  p.bb.pos = { 33, 16 };
+  p.bb.size = { 12, 11 };
+  we.bb.pos = { 65, 33 };
   we.vel = { 20, 0 };
   info.map = test_map;
   info.arduboy = &a;
