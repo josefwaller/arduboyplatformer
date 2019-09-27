@@ -20,5 +20,5 @@ void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta) {
   }
 }
 void drawWalkingEnemy(WalkingEnemy* w, Info* i) {
-  Sprites::drawExternalMask(w->bb.pos.x, w->bb.pos.y, walking_enemy_sprite, walking_enemy_sprite_mask, 0, 0);
+  Sprites::drawExternalMask(w->bb.pos.x - i->camera.x, w->bb.pos.y - i->camera.y, walking_enemy_sprite, walking_enemy_sprite_mask, 0, 0);
 }
