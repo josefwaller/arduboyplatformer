@@ -1,8 +1,8 @@
 #include "player/player.h"
-#include "player_sprite.h"
 #include <stdint.h>
 #include <Arduboy2.h>
 #include <math.h>
+#include "player_sprite.h"
 
 
 void updatePlayer(Player* p, Info* i, float delta) {
@@ -33,11 +33,13 @@ void updatePlayer(Player* p, Info* i, float delta) {
   if (i->arduboy->pressed(RIGHT_BUTTON)) {
     p->vel.x = 40;
     p->isRunning = true;
+    p->facingLeft = false;
     updateAnimation(&p->anim, 150, 3);
   }
   if (i->arduboy->pressed(LEFT_BUTTON)) {
     p->vel.x = -40;
     p->isRunning = true;
+    p->facingLeft = true;
     updateAnimation(&p->anim, 150, 3);
   }
   tryToMove(p, i, delta);
@@ -126,6 +128,7 @@ void drawPlayer(Player* p, Info* i) {
     state = p->anim.animState + 1;
   else
     state = PLAYER_STAND;
+  if (p->facingLeft)
+    state += 6;
   Sprites::drawExternalMask(p->bb.pos.x + off.x - i->camera.x, p->bb.pos.y + off.y - i->camera.y, player_sprite, player_sprite_mask, state, state);
-//  i->arduboy->drawRect(p->bb.pos.x, p->bb.pos.y, p->bb.size.x, p->bb.size.y);
 }

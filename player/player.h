@@ -9,6 +9,7 @@ struct Player {
   v2 vel;
   bool isGrounded;
   bool isRunning;
+  bool facingLeft;
   Animation anim;
 };
 
