@@ -6,6 +6,7 @@
 struct WalkingEnemy {
   BoundingBox bb;
   v2 vel;
+  bool isDead;
 };
 
 void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta);

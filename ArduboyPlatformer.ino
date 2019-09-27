@@ -19,6 +19,7 @@ void setup() {
   p.bb.pos = { 33, 16 };
   p.bb.size = { 12, 11 };
   we.bb.pos = { 65, 33 };
+  we.bb.size = {16, 16 };
   we.vel = { 20, 0 };
   info.map = test_map;
   info.arduboy = &a;
@@ -53,6 +54,16 @@ void loop() {
   }
   updatePlayer(&p, &info, delta);
   updateWalkingEnemy(&we, &info, delta);
+  // Check for collisions
+  if (collides(&p.bb, &we.bb) && !we.isDead) {
+    if (p.bb.pos.y - we.bb.pos.y < -10) {
+      we.isDead = true;
+      p.vel.y = -40;
+      if (a.pressed(A_BUTTON)) {
+        p.vel.y = -100;
+      }
+    }
+  }
   a.setCursor(0, 0);
   a.print(delta * 1000.0f);
   drawPlayer(&p, &info);
