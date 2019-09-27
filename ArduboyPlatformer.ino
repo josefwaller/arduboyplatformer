@@ -30,10 +30,10 @@ void loop() {
   float delta = (millis() - lastMillis) / 1000.0f;
   lastMillis = millis();
   for (size_t x = 0; x < 10; x++) {
-    a.drawFastHLine(0, 16 * x, 200);
+    a.drawFastHLine(-info.camera.x + 0, -info.camera.y + 16 * x, 200);
   }
   for (size_t y = 0; y < 16; y++) {
-    a.drawFastVLine(16 * y, 0, 100);
+    a.drawFastVLine(-info.camera.x + 16 * y, -info.camera.y + 0, 100);
   }
   // Draw the tile map slowly
   for (size_t y = 0; y < 5; y++) {
@@ -41,10 +41,15 @@ void loop() {
       uint8_t tile_index = info.map[y * 16 + x];
       // Check that the tile is not -1 (i.e. no tile)
       if (tile_index != 0xFF) {
-        s.drawOverwrite(x * 16, y * 16, tileset, tile_index);
-        a.setCursor(x * 16, y * 16);
+        s.drawOverwrite(x * 16 - info.camera.x, y * 16 - info.camera.y, tileset, tile_index);
+        a.setCursor(x * 16 - info.camera.x, y * 16 - info.camera.y);
       }
     }
+  }
+  if (p.bb.pos.x > 30) {
+    info.camera.x = p.bb.pos.x - 30;
+  } else {
+    info.camera.x = 0;
   }
   updatePlayer(&p, &info, delta);
   updateWalkingEnemy(&we, &info, delta);

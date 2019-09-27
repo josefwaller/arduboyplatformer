@@ -126,6 +126,6 @@ void drawPlayer(Player* p, Info* i) {
     state = p->anim.animState + 1;
   else
     state = PLAYER_STAND;
-  Sprites::drawExternalMask(p->bb.pos.x + off.x, p->bb.pos.y + off.y, player_sprite, player_sprite_mask, state, state);
+  Sprites::drawExternalMask(p->bb.pos.x + off.x - i->camera.x, p->bb.pos.y + off.y - i->camera.y, player_sprite, player_sprite_mask, state, state);
 //  i->arduboy->drawRect(p->bb.pos.x, p->bb.pos.y, p->bb.size.x, p->bb.size.y);
 }
