@@ -6,6 +6,8 @@
 
 
 void updatePlayer(Player* p, Info* i, float delta) {
+  if (p->isDead)
+    return;
   if (p->isGrounded) {
     // Check if p has become not grounded
     int roundedX = floor(p->bb.pos.x / 16.0f);
@@ -122,7 +124,9 @@ void tryToMove(Player* p, Info* i, float delta) {
 void drawPlayer(Player* p, Info* i) {
   v2 off = { -2, -4 };
   uint8_t state;
-  if (!p->isGrounded)
+  if (p->isDead)
+    state = PLAYER_DEAD;
+  else if (!p->isGrounded)
     state = PLAYER_JUMP;
   else if (p->isRunning)
     state = p->anim.animState + 1;

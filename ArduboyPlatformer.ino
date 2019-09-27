@@ -55,13 +55,15 @@ void loop() {
   updatePlayer(&p, &info, delta);
   updateWalkingEnemy(&we, &info, delta);
   // Check for collisions
-  if (collides(&p.bb, &we.bb) && !we.isDead) {
-    if (p.bb.pos.y - we.bb.pos.y < -10) {
+  if (collides(&p.bb, &we.bb) && !we.isDead && !p.isDead) {
+    if (p.bb.pos.y - we.bb.pos.y < -5) {
       we.isDead = true;
       p.vel.y = -40;
       if (a.pressed(A_BUTTON)) {
         p.vel.y = -100;
       }
+    } else {
+      p.isDead = true;
     }
   }
   a.setCursor(0, 0);

@@ -10,11 +10,13 @@ struct Player {
   bool isGrounded;
   bool isRunning;
   bool facingLeft;
+  bool isDead;
   Animation anim;
 };
 
 const uint8_t PLAYER_STAND = 0;
 const uint8_t PLAYER_JUMP = 3;
+const uint8_t PLAYER_DEAD = 5;
 
 void updatePlayer(Player* p, Info* i, float delta);
 void drawPlayer(Player* p, Info* i);
