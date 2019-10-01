@@ -52,6 +52,16 @@ void loop() {
   } else {
     info.camera.x = 0;
   }
+  if (p.isDead) {
+    a.setCursor((WIDTH - (9 * 6)) / 2, HEIGHT / 2 - 7);
+    a.print("You died.");
+    a.setCursor((WIDTH - (11 * 6)) / 2, HEIGHT / 2);
+    a.print("Start Over?");
+    if (a.pressed(A_BUTTON)) {
+      setup();
+      p.isDead = false;
+    }
+  }
   updatePlayer(&p, &info, delta);
   updateWalkingEnemy(&we, &info, delta);
   // Check for collisions
