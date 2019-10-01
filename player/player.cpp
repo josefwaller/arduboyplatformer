@@ -63,8 +63,6 @@ void updatePlayer(Player* p, Info* i, float delta) {
   i->arduboy->print(p->vel.y * 100);
   i->arduboy->setCursor(70, 0);
   i->arduboy->print(p->bb.pos.y);
-  i->arduboy->setCursor(0, 20);
-  i->arduboy->print(p->bb.pos.y + p->bb.size.y);
 };
 
 // Just moves the player based on their velocity
@@ -98,6 +96,13 @@ void tryToMove(Player* p, Info* i, float delta) {
           p->isGrounded = true;
           p->bb.pos.y = newRoundedY * 16 - p->bb.size.y - 1;
         } else {
+          // Check if the player hit a ? block
+          if (tile == 0x0b) {
+            i->map[16 * newRoundedY + roundedX] = 0x05;
+          }
+          if (tile2 = 0x0b) {
+            i->map[16 * newRoundedY + roundedXS] = 0x05;
+          }
           p->bb.pos.y = newRoundedY * 16 + 16;
         }
         p->vel.y = 0;
