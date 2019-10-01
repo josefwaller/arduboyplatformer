@@ -18,6 +18,7 @@ const uint8_t PLAYER_STAND = 0;
 const uint8_t PLAYER_JUMP = 3;
 const uint8_t PLAYER_DEAD = 5;
 
+Player createPlayer(v2 pos);
 void updatePlayer(Player* p, Info* i, float delta);
 void drawPlayer(Player* p, Info* i);
 void tryToMove(Player* p, Info* i, float delta);

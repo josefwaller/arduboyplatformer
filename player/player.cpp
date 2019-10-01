@@ -4,6 +4,20 @@
 #include <math.h>
 #include "player_sprite.h"
 
+Player createPlayer(v2 pos) {
+  return {
+    {
+      pos,
+      { 12, 11 }
+    },
+    { 0, 0 },
+    false,
+    false,
+    false,
+    false,
+    PLAYER_STAND
+  };
+}
 
 void updatePlayer(Player* p, Info* i, float delta) {
   if (p->isDead)

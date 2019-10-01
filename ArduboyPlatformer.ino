@@ -16,8 +16,8 @@ Info info;
 void setup() {
 	a.begin();
   lastMillis = millis();
-  p.bb.pos = { 33, 16 };
-  p.bb.size = { 12, 11 };
+  v2 playerPos = { 33, 16 };
+  p = createPlayer(playerPos);
   we.bb.pos = { 65, 33 };
   we.bb.size = {16, 16 };
   we.vel = { 20, 0 };
