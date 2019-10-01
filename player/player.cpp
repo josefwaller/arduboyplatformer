@@ -111,6 +111,11 @@ void tryToMove(Player* p, Info* i, float delta) {
       }
     }
   }
+  // Check if the player has fallen off the screen
+  if (p->bb.pos.y > HEIGHT) {
+    p->isDead = true;
+    return;
+  }
   // Compute the new X
   // Since this is pretty much doing the same thing as above, maybe find some
   // way to abstract it?
