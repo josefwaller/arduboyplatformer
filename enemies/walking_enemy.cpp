@@ -1,5 +1,6 @@
 #include "enemies/walking_enemy.h"
 #include "walking_enemy_sprite.h"
+#include "utils/constants.h"
 #include <Arduboy2.h>
 
 WalkingEnemy createWalkingEnemy(v2 pos) {
@@ -22,7 +23,7 @@ void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta) {
     int roundedY = floor(w->bb.pos.y / 16.0f);
     uint8_t tile = i->map[16 * (roundedY + 1) + roundedX];
     // Check if the enemy is hitting a wall or walking off an edge
-    if (tile == 0xFF) {
+    if (tile == TILE_NOTHING) {
       // Turn around
       w->vel.x *= -1;
     } else {

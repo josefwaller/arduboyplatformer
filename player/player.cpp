@@ -1,4 +1,5 @@
 #include "player/player.h"
+#include "utils/constants.h"
 #include <stdint.h>
 #include <Arduboy2.h>
 #include <math.h>
@@ -29,7 +30,7 @@ void updatePlayer(Player* p, Info* i, float delta) {
     int roundedXS = floor((p->bb.pos.x + p->bb.size.x) / 16.0f);
     uint8_t tile = i->map[16 * roundedY + roundedX];
     uint8_t tile2 = i->map[16 * roundedY + roundedXS];
-    if (tile == 0xFF && tile2 == 0xFF) {
+    if (tile == TILE_NOTHING && tile2 == TILE_NOTHING) {
       p->isGrounded = false;
     }
     // Check if the player is jumping
@@ -90,18 +91,18 @@ void tryToMove(Player* p, Info* i, float delta) {
     } else {
       uint8_t tile = i->map[16 * newRoundedY + roundedX];
       uint8_t tile2 = i->map[16 * newRoundedY + roundedXS];
-      if (tile != 0xFF || tile2 != 0xFF) {
+      if (tile != TILE_NOTHING || tile2 != TILE_NOTHING ) {
         if (p->vel.y > 0) {
           // The only y specific thing here
           p->isGrounded = true;
           p->bb.pos.y = newRoundedY * 16 - p->bb.size.y - 1;
         } else {
           // Check if the player hit a ? block
-          if (tile == 0x0b) {
-            i->map[16 * newRoundedY + roundedX] = 0x05;
+          if (tile == TILE_ITEM_BLOCK) {
+            i->map[16 * newRoundedY + roundedX] = TILE_ITEM_BLOCK_USED;
           }
-          if (tile2 == 0x0b) {
-            i->map[16 * newRoundedY + roundedXS] = 0x05;
+          if (tile2 == TILE_ITEM_BLOCK) {
+            i->map[16 * newRoundedY + roundedXS] = TILE_ITEM_BLOCK_USED;
           }
           p->bb.pos.y = newRoundedY * 16 + 16;
         }
@@ -130,7 +131,7 @@ void tryToMove(Player* p, Info* i, float delta) {
     if (newRoundedX != roundedX) {
       uint8_t tile = i->map[16 * roundedY + newRoundedX];
       uint8_t tile2 = i->map[16 * roundedYS + newRoundedX];
-      if (tile != 0xFF || tile2 != 0xFF) {
+      if (tile != TILE_NOTHING || tile2 != TILE_NOTHING) {
         if (p->vel.x > 0) {
           p->bb.pos.x = newRoundedX * 16 - 1 - p->bb.size.x;
         } else {
