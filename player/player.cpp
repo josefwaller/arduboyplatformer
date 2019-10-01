@@ -100,7 +100,7 @@ void tryToMove(Player* p, Info* i, float delta) {
           if (tile == 0x0b) {
             i->map[16 * newRoundedY + roundedX] = 0x05;
           }
-          if (tile2 = 0x0b) {
+          if (tile2 == 0x0b) {
             i->map[16 * newRoundedY + roundedXS] = 0x05;
           }
           p->bb.pos.y = newRoundedY * 16 + 16;
