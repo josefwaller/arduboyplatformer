@@ -9,5 +9,6 @@ struct WalkingEnemy {
   bool isDead;
 };
 
+WalkingEnemy createWalkingEnemy(v2 pos);
 void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta);
 void drawWalkingEnemy(WalkingEnemy* w, Info* i);

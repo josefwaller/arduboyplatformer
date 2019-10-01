@@ -18,8 +18,8 @@ void setup() {
   lastMillis = millis();
   v2 playerPos = { 33, 16 };
   p = createPlayer(playerPos);
-  we.bb.pos = { 65, 33 };
-  we.bb.size = {16, 16 };
+  v2 walkingEnemyPos = { 65, 33 };
+  we = createWalkingEnemy(walkingEnemyPos);
   we.vel = { 20, 0 };
   info.map = test_map;
   info.arduboy = &a;

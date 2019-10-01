@@ -2,6 +2,17 @@
 #include "walking_enemy_sprite.h"
 #include <Arduboy2.h>
 
+WalkingEnemy createWalkingEnemy(v2 pos) {
+  return {
+    {
+      pos,
+      { 16, 16 }
+    },
+    { 0, 0 },
+    false
+  };
+}
+
 void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta) {
   if (!w->isDead) {
     float newX = w->bb.pos.x + w->vel.x * delta;
