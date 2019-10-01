@@ -17,6 +17,10 @@ char level[16 * 16];
 void setup() {
 	a.begin();
   lastMillis = millis();
+  initLevel();
+}
+
+void initLevel() {
   v2 playerPos = { 33, 16 };
   p = createPlayer(playerPos);
   v2 walkingEnemyPos = { 65, 33 };
@@ -62,7 +66,7 @@ void loop() {
     a.setCursor((WIDTH - (11 * 6)) / 2, HEIGHT / 2);
     a.print("Start Over?");
     if (a.pressed(A_BUTTON)) {
-      setup();
+      initLevel();
       p.isDead = false;
     }
   }
