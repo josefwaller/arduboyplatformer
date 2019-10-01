@@ -12,6 +12,7 @@ int counter;
 Player p;
 WalkingEnemy we;
 Info info;
+char level[16 * 16];
 
 void setup() {
 	a.begin();
@@ -21,7 +22,11 @@ void setup() {
   v2 walkingEnemyPos = { 65, 33 };
   we = createWalkingEnemy(walkingEnemyPos);
   we.vel = { 20, 0 };
-  info.map = test_map;
+  // Copy the level
+  for (size_t i = 0; i < 16 * 16; i++) {
+    level[i] = pgm_read_byte(&test_map[i]);
+  }
+  info.map = level;
   info.arduboy = &a;
 }
 
@@ -43,7 +48,6 @@ void loop() {
       // Check that the tile is not -1 (i.e. no tile)
       if (tile_index != 0xFF) {
         s.drawOverwrite(x * 16 - info.camera.x, y * 16 - info.camera.y, tileset, tile_index);
-        a.setCursor(x * 16 - info.camera.x, y * 16 - info.camera.y);
       }
     }
   }
