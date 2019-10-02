@@ -3,6 +3,7 @@
 #include "tileset.h"
 #include "test_map.h"
 #include "utils/info.h"
+#include "powerups/bow.h"
 #include "enemies/walking_enemy.h"
 
 Arduboy2 a;
@@ -11,6 +12,7 @@ long lastMillis;
 int counter;
 Player p;
 WalkingEnemy we;
+Bow b;
 Info info;
 char level[16 * 16];
 
@@ -26,6 +28,7 @@ void initLevel() {
   v2 walkingEnemyPos = { 65, 33 };
   we = createWalkingEnemy(walkingEnemyPos);
   we.vel = { 20, 0 };
+  b.bb.pos = { 32, 16 };
   // Copy the level
   for (size_t i = 0; i < 16 * 16; i++) {
     level[i] = pgm_read_byte(&test_map[i]);
@@ -88,5 +91,6 @@ void loop() {
   a.print(delta * 1000.0f);
   drawPlayer(&p, &info);
   drawWalkingEnemy(&we, &info);
+  drawBow(&b, &info);
 	a.display();
 }
