@@ -1,5 +1,6 @@
 #include "player/player.h"
 #include "utils/constants.h"
+#include "utils/camera.h"
 #include <stdint.h>
 #include <Arduboy2.h>
 #include <math.h>
@@ -159,5 +160,6 @@ void drawPlayer(Player* p, Info* i) {
     state = PLAYER_STAND;
   if (p->facingLeft)
     state += 6;
-  Sprites::drawExternalMask(p->bb.pos.x + off.x - i->camera.x, p->bb.pos.y + off.y - i->camera.y, player_sprite, player_sprite_mask, state, state);
+  v2 drawCoords = getCameraCoords(p->bb.pos, i->camera);
+  Sprites::drawExternalMask(drawCoords.x + off.x, drawCoords.y + off.y, player_sprite, player_sprite_mask, state, state);
 }

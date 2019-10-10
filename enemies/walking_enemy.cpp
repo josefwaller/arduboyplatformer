@@ -1,6 +1,7 @@
 #include "enemies/walking_enemy.h"
 #include "walking_enemy_sprite.h"
 #include "utils/constants.h"
+#include "utils/camera.h"
 #include <Arduboy2.h>
 
 WalkingEnemy createWalkingEnemy(v2 pos) {
@@ -37,5 +38,6 @@ void updateWalkingEnemy(WalkingEnemy* w, Info* i, float delta) {
 }
 
 void drawWalkingEnemy(WalkingEnemy* w, Info* i) {
-  Sprites::drawExternalMask(w->bb.pos.x - i->camera.x, w->bb.pos.y - i->camera.y, walking_enemy_sprite, walking_enemy_sprite_mask, 0, 0);
+  v2 drawCoords = getCameraCoords(w->bb.pos, i->camera);
+  Sprites::drawExternalMask(drawCoords.x, drawCoords.y, walking_enemy_sprite, walking_enemy_sprite_mask, 0, 0);
 }
