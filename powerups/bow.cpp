@@ -1,7 +1,9 @@
 #include "powerups/bow.h"
 #include "utils/camera.h"
 #include "utils/constants.h"
+#include "utils/bounding_box.h"
 #include "bow_sprite.h"
+#include "player/player.h"
 
 void updateBow(Bow* b, Info* i, float delta) {
   float newX;
@@ -21,6 +23,13 @@ void updateBow(Bow* b, Info* i, float delta) {
     b->isGoingLeft = !b->isGoingLeft;
   } else {
     b->bb.pos.x = newX;
+  }
+  // Check if the powerup has hit the player
+  if (collides(&b->bb, &i->player->bb)) {
+    // Deletes the power up
+    // TBA
+    i->arduboy->setCursor(32, 32);
+    i->arduboy->print("Poewrup");
   }
 }
 
