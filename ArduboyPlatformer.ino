@@ -35,6 +35,7 @@ void initLevel() {
   }
   info.map = level;
   info.arduboy = &a;
+  info.player = &p;
 }
 
 
