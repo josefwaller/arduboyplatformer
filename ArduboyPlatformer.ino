@@ -28,7 +28,7 @@ void initLevel() {
   v2 walkingEnemyPos = { 65, 33 };
   we = createWalkingEnemy(walkingEnemyPos);
   we.vel = { 20, 0 };
-  b.bb.pos = { 32, 16 };
+  b.bb.pos = { 4 * 16, 2 * 16 };
   // Copy the level
   for (size_t i = 0; i < 16 * 16; i++) {
     level[i] = pgm_read_byte(&test_map[i]);
@@ -75,6 +75,7 @@ void loop() {
   }
   updatePlayer(&p, &info, delta);
   updateWalkingEnemy(&we, &info, delta);
+  updateBow(&b, &info, delta);
   // Check for collisions
   if (collides(&p.bb, &we.bb) && !we.isDead && !p.isDead) {
     if (p.bb.pos.y - we.bb.pos.y < -5) {

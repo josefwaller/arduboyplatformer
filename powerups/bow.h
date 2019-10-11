@@ -4,6 +4,7 @@
 
 struct Bow {
   BoundingBox bb;
+  bool isGoingLeft;
 };
 
 void updateBow(Bow* b, Info* i, float delta);
