@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <Arduboy2.h>
 #include <math.h>
-#include "player_sprite.h"
+#include "bin_sprites/player_sprite.h"
 
 Player createPlayer(v2 pos) {
   return {

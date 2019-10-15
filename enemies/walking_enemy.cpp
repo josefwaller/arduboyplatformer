@@ -1,5 +1,5 @@
 #include "enemies/walking_enemy.h"
-#include "walking_enemy_sprite.h"
+#include "bin_sprites/walking_enemy_sprite.h"
 #include "utils/constants.h"
 #include "utils/camera.h"
 #include <Arduboy2.h>

@@ -2,7 +2,7 @@
 #include "utils/camera.h"
 #include "utils/constants.h"
 #include "utils/bounding_box.h"
-#include "bow_sprite.h"
+#include "bin_sprites/bow_sprite.h"
 #include "player/player.h"
 
 PowerUp createBow(v2 pos) {
