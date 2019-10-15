@@ -3,7 +3,7 @@
 #include "tileset.h"
 #include "test_map.h"
 #include "utils/info.h"
-#include "powerups/bow.h"
+#include "powerup/powerup.h"
 #include "enemies/walking_enemy.h"
 
 Arduboy2 a;
@@ -12,7 +12,7 @@ long lastMillis;
 int counter;
 Player p;
 WalkingEnemy we;
-Bow b;
+PowerUp b;
 Info info;
 char level[16 * 16];
 
@@ -77,7 +77,7 @@ void loop() {
   }
   updatePlayer(&p, &info, delta);
   updateWalkingEnemy(&we, &info, delta);
-  updateBow(&b, &info, delta);
+  updatePowerUp(&b, &info, delta);
   // Check for collisions
   if (collides(&p.bb, &we.bb) && !we.isDead && !p.isDead) {
     if (p.bb.pos.y - we.bb.pos.y < -5) {
@@ -94,6 +94,6 @@ void loop() {
   a.print(delta * 1000.0f);
   drawPlayer(&p, &info);
   drawWalkingEnemy(&we, &info);
-  drawBow(&b, &info);
+  drawPowerUp(&b, &info);
 	a.display();
 }

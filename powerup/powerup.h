@@ -2,10 +2,10 @@
 #include "../utils/bounding_box.h"
 #include "../utils/info.h"
 
-struct Bow {
+struct PowerUp {
   BoundingBox bb;
   bool isGoingLeft;
 };
 
-void updateBow(Bow* b, Info* i, float delta);
-void drawBow(Bow* b, Info* i);
+void updatePowerUp(PowerUp* b, Info* i, float delta);
+void drawPowerUp(PowerUp* b, Info* i);

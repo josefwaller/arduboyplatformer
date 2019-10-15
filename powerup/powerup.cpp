@@ -1,11 +1,11 @@
-#include "powerups/bow.h"
+#include "powerup/powerup.h"
 #include "utils/camera.h"
 #include "utils/constants.h"
 #include "utils/bounding_box.h"
 #include "bow_sprite.h"
 #include "player/player.h"
 
-void updateBow(Bow* b, Info* i, float delta) {
+void updatePowerUp(PowerUp* b, Info* i, float delta) {
   float newX;
   i->arduboy->setCursor(20, 20);
   const unsigned int BOW_MOVE_SPEED = 20;
@@ -33,7 +33,7 @@ void updateBow(Bow* b, Info* i, float delta) {
   }
 }
 
-void drawBow(Bow* b, Info* i) {
+void drawPowerUp(PowerUp* b, Info* i) {
   v2 drawCoords = getCameraCoords(b->bb.pos, i->camera);
   Sprites::drawExternalMask(drawCoords.x, drawCoords.y, bow_sprite, bow_sprite_mask, 0, 0);
 }
