@@ -15,4 +15,5 @@ struct PowerUp {
 
 PowerUp createBow(v2 pos);
 void updatePowerUp(PowerUp* b, Info* i, float delta);
+void updateMovingPowerUp(PowerUp* b, Info* i, float delta);
 void drawPowerUp(PowerUp* b, Info* i);

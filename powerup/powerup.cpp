@@ -12,7 +12,12 @@ PowerUp createBow(v2 pos) {
     true
   };
 }
-void updatePowerUp(PowerUp* b, Info* i, float delta) {
+void updatePowerUp(PowerUp* p, Info* i, float delta) {
+  if (p->type == PowerUpType::Bow) {
+    updateMovingPowerUp(p, i, delta);
+  }
+}
+void updateMovingPowerUp(PowerUp* b, Info* i, float delta) {
   float newX;
   i->arduboy->setCursor(20, 20);
   const unsigned int BOW_MOVE_SPEED = 20;
@@ -42,5 +47,7 @@ void updatePowerUp(PowerUp* b, Info* i, float delta) {
 
 void drawPowerUp(PowerUp* b, Info* i) {
   v2 drawCoords = getCameraCoords(b->bb.pos, i->camera);
-  Sprites::drawExternalMask(drawCoords.x, drawCoords.y, bow_sprite, bow_sprite_mask, 0, 0);
+  if (b->type == PowerUpType::Bow) {
+    Sprites::drawExternalMask(drawCoords.x, drawCoords.y, bow_sprite, bow_sprite_mask, 0, 0);
+  }
 }
