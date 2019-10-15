@@ -5,6 +5,13 @@
 #include "bow_sprite.h"
 #include "player/player.h"
 
+PowerUp createBow(v2 pos) {
+  return {
+    { pos, { 16.0f, 16.0f }},
+    PowerUpType::Bow,
+    true
+  };
+}
 void updatePowerUp(PowerUp* b, Info* i, float delta) {
   float newX;
   i->arduboy->setCursor(20, 20);

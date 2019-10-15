@@ -27,9 +27,8 @@ void initLevel() {
   p = createPlayer(playerPos);
   v2 walkingEnemyPos = { 65, 33 };
   we = createWalkingEnemy(walkingEnemyPos);
-  we.vel = { 20, 0 };
-  b.bb.pos = { 4 * 16, 2 * 16 };
-  b.bb.size = { 16, 16 };
+  v2 bpos = {0, 2 * 16};
+  b = createBow(bpos);
   // Copy the level
   for (size_t i = 0; i < 16 * 16; i++) {
     level[i] = pgm_read_byte(&test_map[i]);

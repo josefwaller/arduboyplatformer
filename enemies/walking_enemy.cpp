@@ -10,7 +10,7 @@ WalkingEnemy createWalkingEnemy(v2 pos) {
       pos,
       { 16, 16 }
     },
-    { 0, 0 },
+    { 20, 0 },
     false
   };
 }
