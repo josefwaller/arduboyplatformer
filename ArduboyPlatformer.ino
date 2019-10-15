@@ -12,7 +12,10 @@ long lastMillis;
 int counter;
 Player p;
 WalkingEnemy we;
-PowerUp b;
+// The size of the powerup array, i.e. the maximum powerups in existance at the same time
+const uint8_t POWERUP_ARRAY_SIZE = 3;
+PowerUp powerUps[POWERUP_ARRAY_SIZE]; 
+bool powerUpExists[POWERUP_ARRAY_SIZE];
 Info info;
 char level[16 * 16];
 
@@ -28,7 +31,8 @@ void initLevel() {
   v2 walkingEnemyPos = { 65, 33 };
   we = createWalkingEnemy(walkingEnemyPos);
   v2 bpos = {0, 2 * 16};
-  b = createBow(bpos);
+  powerUps[0] = createBow(bpos);
+  powerUpExists[0] = true;
   // Copy the level
   for (size_t i = 0; i < 16 * 16; i++) {
     level[i] = pgm_read_byte(&test_map[i]);
@@ -76,7 +80,11 @@ void loop() {
   }
   updatePlayer(&p, &info, delta);
   updateWalkingEnemy(&we, &info, delta);
-  updatePowerUp(&b, &info, delta);
+  for (uint8_t i = 0; i < POWERUP_ARRAY_SIZE; i++) {
+    if (powerUpExists[i]) {
+      updatePowerUp(&powerUps[i], &info, delta);
+    }
+  }
   // Check for collisions
   if (collides(&p.bb, &we.bb) && !we.isDead && !p.isDead) {
     if (p.bb.pos.y - we.bb.pos.y < -5) {
@@ -93,6 +101,10 @@ void loop() {
   a.print(delta * 1000.0f);
   drawPlayer(&p, &info);
   drawWalkingEnemy(&we, &info);
-  drawPowerUp(&b, &info);
+  for (uint8_t i = 0; i < POWERUP_ARRAY_SIZE; i++) {
+    if (powerUpExists[i]) {
+      drawPowerUp(&powerUps[i], &info);
+    }
+  }
 	a.display();
 }
