@@ -9,6 +9,7 @@ PowerUp createBow(v2 pos) {
   return {
     { pos, { 16.0f, 16.0f }},
     PowerUpType::Bow,
+    true,
     true
   };
 }
@@ -42,6 +43,7 @@ void updateMovingPowerUp(PowerUp* b, Info* i, float delta) {
     // TBA
     i->arduboy->setCursor(32, 32);
     i->arduboy->print("Poewrup");
+    b->exists = false;
   }
 }
 

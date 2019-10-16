@@ -11,6 +11,9 @@ struct PowerUp {
   BoundingBox bb;
   PowerUpType type;
   bool isGoingLeft;
+  // Whether the powerup exists
+  // Stored here so that it can easily set it to false when used by player
+  bool exists;
 };
 
 PowerUp createBow(v2 pos);

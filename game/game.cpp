@@ -55,7 +55,7 @@ void updateGame(Game* g, Sprites* s) {
   updatePlayer(p, info, delta);
   updateWalkingEnemy(we, info, delta);
   for (uint8_t i = 0; i < POWERUP_ARRAY_SIZE; i++) {
-    if (g->powerUpExists[i]) {
+    if (g->powerUps[i].exists) {
       updatePowerUp(&g->powerUps[i], info, delta);
     }
   }
@@ -77,7 +77,7 @@ void updateGame(Game* g, Sprites* s) {
   drawPlayer(p, info);
   drawWalkingEnemy(we, info);
   for (uint8_t i = 0; i < POWERUP_ARRAY_SIZE; i++) {
-    if (g->powerUpExists[i]) {
+    if (g->powerUps[i].exists) {
       drawPowerUp(&g->powerUps[i], info);
     }
   }
@@ -90,7 +90,6 @@ void initLevel(Game* g) {
   g->walkingEnemy = createWalkingEnemy(walkingEnemyPos);
   v2 bpos = {0, 2 * 16};
   g->powerUps[0] = createBow(bpos);
-  g->powerUpExists[0] = true;
   // Copy the level
   for (size_t i = 0; i < 16 * 16; i++) {
     g->level[i] = pgm_read_byte(&test_map[i]);

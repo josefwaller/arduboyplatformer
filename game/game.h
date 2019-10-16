@@ -15,7 +15,6 @@ struct Game {
   WalkingEnemy walkingEnemy;
   // The size of the powerup array, i.e. the maximum powerups in existance at the same time
   PowerUp powerUps[POWERUP_ARRAY_SIZE]; 
-  bool powerUpExists[POWERUP_ARRAY_SIZE];
   Info info;
   char level[16 * 16];
 };
