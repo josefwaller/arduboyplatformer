@@ -11,8 +11,8 @@ const uint8_t POWERUP_ARRAY_SIZE = 3;
 struct Game {
   long lastMillis;
   int counter;
-  Player p;
-  WalkingEnemy we;
+  Player player;
+  WalkingEnemy walkingEnemy;
   // The size of the powerup array, i.e. the maximum powerups in existance at the same time
   PowerUp powerUps[POWERUP_ARRAY_SIZE]; 
   bool powerUpExists[POWERUP_ARRAY_SIZE];

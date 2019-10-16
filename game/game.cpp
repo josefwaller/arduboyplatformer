@@ -15,9 +15,9 @@ void beginGame(Game* g, Arduboy2* a) {
 }
 void updateGame(Game* g, Sprites* s) {
   // Get some values to avoid having g-> everywhere
-  Player* p = &g->p;
+  Player* p = &g->player;
   Info* info = &g->info;
-  WalkingEnemy* we = &g->we;
+  WalkingEnemy* we = &g->walkingEnemy;
   Arduboy2* a = g->info.arduboy;
   v2 camera = g->info.camera;
   float delta = (millis() - g->lastMillis) / 1000.0f;
@@ -39,9 +39,9 @@ void updateGame(Game* g, Sprites* s) {
     }
   }
   if (p->bb.pos.x > 30) {
-    g->info.camera.x = g->p.bb.pos.x - 30;
+    info->camera.x = p->bb.pos.x - 30;
   } else {
-    g->info.camera.x = 0;
+    info->camera.x = 0;
   }
   if (p->isDead) {
     a->setCursor((WIDTH - (9 * 6)) / 2, HEIGHT / 2 - 7);
@@ -85,9 +85,9 @@ void updateGame(Game* g, Sprites* s) {
 
 void initLevel(Game* g) {
   v2 playerPos = { 33, 16 };
-  g->p = createPlayer(playerPos);
+  g->player = createPlayer(playerPos);
   v2 walkingEnemyPos = { 65, 33 };
-  g->we = createWalkingEnemy(walkingEnemyPos);
+  g->walkingEnemy = createWalkingEnemy(walkingEnemyPos);
   v2 bpos = {0, 2 * 16};
   g->powerUps[0] = createBow(bpos);
   g->powerUpExists[0] = true;
@@ -96,6 +96,6 @@ void initLevel(Game* g) {
     g->level[i] = pgm_read_byte(&test_map[i]);
   }
   g->info.map = g->level;
-  g->info.player = &g->p;
+  g->info.player = &g->player;
 }
 
