@@ -3,6 +3,7 @@
 #include "../utils/info.h"
 #include "../utils/bounding_box.h"
 #include "../animation/animation.h"
+#include "../powerup/powerup.h"
 
 struct Player {
   BoundingBox bb;
@@ -12,6 +13,7 @@ struct Player {
   bool facingLeft;
   bool isDead;
   Animation anim;
+  PowerUpType powerUpState;
 };
 
 const uint8_t PLAYER_STAND = 0;

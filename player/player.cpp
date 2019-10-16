@@ -17,7 +17,8 @@ Player createPlayer(v2 pos) {
     false,
     false,
     false,
-    PLAYER_STAND
+    PLAYER_STAND,
+    PowerUpType::Nothing
   };
 }
 
@@ -62,9 +63,7 @@ void updatePlayer(Player* p, Info* i, float delta) {
   }
   tryToMove(p, i, delta);
   i->arduboy->setCursor(32, 0);
-  i->arduboy->print(p->vel.y * 100);
-  i->arduboy->setCursor(70, 0);
-  i->arduboy->print(p->bb.pos.y);
+  i->arduboy->print(p->powerUpState);
 };
 
 // Just moves the player based on their velocity

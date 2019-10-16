@@ -4,6 +4,7 @@
 struct v2;
 
 enum PowerUpType {
+  Nothing,
   Bow
 };
 

@@ -43,6 +43,7 @@ void updateMovingPowerUp(PowerUp* b, Info* i, float delta) {
     // TBA
     i->arduboy->setCursor(32, 32);
     i->arduboy->print("Poewrup");
+    i->player->powerUpState = b->type;
     b->exists = false;
   }
 }
