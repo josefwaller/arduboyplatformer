@@ -10,9 +10,11 @@
 
 void beginGame(Game* g, Arduboy2* a) {
   g->lastMillis = millis();
-  initLevel(g, a);
+  g->info.arduboy = a;
+  initLevel(g);
 }
-void updateGame(Game* g, Arduboy2* a, Sprites* s) {
+void updateGame(Game* g, Sprites* s) {
+  Arduboy2* a = g->info.arduboy;
   float delta = (millis() - g->lastMillis) / 1000.0f;
   g->lastMillis = millis();
   for (size_t x = 0; x < 10; x++) {
@@ -42,7 +44,7 @@ void updateGame(Game* g, Arduboy2* a, Sprites* s) {
     a->setCursor((WIDTH - (11 * 6)) / 2, HEIGHT / 2);
     a->print("Start Over?");
     if (a->pressed(A_BUTTON)) {
-      initLevel(g, a);
+      initLevel(g);
       g->p.isDead = false;
     }
   }
@@ -76,7 +78,7 @@ void updateGame(Game* g, Arduboy2* a, Sprites* s) {
   }
 
 }
-void initLevel(Game* g, Arduboy2* a) {
+void initLevel(Game* g) {
   v2 playerPos = { 33, 16 };
   g->p = createPlayer(playerPos);
   v2 walkingEnemyPos = { 65, 33 };
@@ -89,6 +91,5 @@ void initLevel(Game* g, Arduboy2* a) {
     g->level[i] = pgm_read_byte(&test_map[i]);
   }
   g->info.map = g->level;
-  g->info.arduboy = a;
   g->info.player = &g->p;
 }

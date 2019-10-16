@@ -21,5 +21,5 @@ struct Game {
 };
 
 void beginGame(Game* g, Arduboy2* a);
-void updateGame(Game* g, Arduboy2* a, Sprites* s);
-void initLevel(Game* g, Arduboy2* a);
+void updateGame(Game* g, Sprites* s);
+void initLevel(Game* g);

@@ -12,6 +12,6 @@ void setup() {
 
 void loop() {
 	a.clear();
-  updateGame(&game, &a, &s);
+  updateGame(&game, &s);
 	a.display();
 }
