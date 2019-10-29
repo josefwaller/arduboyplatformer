@@ -11,6 +11,7 @@
 void beginGame(Game* g, Arduboy2* a) {
   g->lastMillis = millis();
   g->info.arduboy = a;
+  g->info.game = g;
   initLevel(g);
 }
 void updateGame(Game* g, Sprites* s) {
@@ -81,6 +82,11 @@ void updateGame(Game* g, Sprites* s) {
       drawPowerUp(&g->powerUps[i], info);
     }
   }
+  for (uint8_t i = 0; i < PROJECTILE_ARRAY_SIZE; i++) {
+    if (g->projectiles[i].exists) {
+      drawProjectile(&g->projectiles[i], info);
+    }
+  }
 }
 
 void initLevel(Game* g) {
@@ -90,6 +96,8 @@ void initLevel(Game* g) {
   g->walkingEnemy = createWalkingEnemy(walkingEnemyPos);
   v2 bpos = {0, 2 * 16};
   g->powerUps[0] = createBow(bpos);
+  v2 apos = {32, 16};
+  g->projectiles[0] = createProjectile(apos, apos);
   // Copy the level
   for (size_t i = 0; i < 16 * 16; i++) {
     g->level[i] = pgm_read_byte(&test_map[i]);
@@ -98,3 +106,12 @@ void initLevel(Game* g) {
   g->info.player = &g->player;
 }
 
+void addProjectile(Game* g, Projectile a) {
+  // Worst case scenario, just does not add a projectile
+  for (size_t i = 0; i < PROJECTILE_ARRAY_SIZE; i++) {
+    if (!g->projectiles[i].exists) {
+      g->projectiles[i] = a;
+      break;
+    }
+  }
+}

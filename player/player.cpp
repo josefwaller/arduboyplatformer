@@ -1,10 +1,12 @@
 #include "player/player.h"
 #include "utils/constants.h"
+#include "projectile/projectile.h"
 #include "utils/camera.h"
 #include <stdint.h>
 #include <Arduboy2.h>
 #include <math.h>
 #include "bin_sprites/player_sprite.h"
+#include "game/game.h"
 
 Player createPlayer(v2 pos) {
   return {
@@ -60,6 +62,10 @@ void updatePlayer(Player* p, Info* i, float delta) {
     p->isRunning = true;
     p->facingLeft = true;
     updateAnimation(&p->anim, 150, 3);
+  }
+  // Shoot
+  if (i->arduboy->pressed(B_BUTTON)) {
+    addProjectile(i->game, createProjectile(p->bb.pos, p->bb.pos));
   }
   tryToMove(p, i, delta);
   i->arduboy->setCursor(32, 0);
