@@ -64,7 +64,7 @@ void updatePlayer(Player* p, Info* i, float delta) {
     updateAnimation(&p->anim, 150, 3);
   }
   // Shoot
-  if (i->arduboy->pressed(B_BUTTON)) {
+  if (i->arduboy->justPressed(B_BUTTON)) {
     addProjectile(i->game, createProjectile(p->bb.pos, p->bb.pos));
   }
   tryToMove(p, i, delta);

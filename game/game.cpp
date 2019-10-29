@@ -21,6 +21,7 @@ void updateGame(Game* g, Sprites* s) {
   WalkingEnemy* we = &g->walkingEnemy;
   Arduboy2* a = g->info.arduboy;
   v2 camera = g->info.camera;
+  info->arduboy->pollButtons();
   float delta = (millis() - g->lastMillis) / 1000.0f;
   g->lastMillis = millis();
   for (size_t x = 0; x < 10; x++) {
@@ -58,6 +59,11 @@ void updateGame(Game* g, Sprites* s) {
   for (uint8_t i = 0; i < POWERUP_ARRAY_SIZE; i++) {
     if (g->powerUps[i].exists) {
       updatePowerUp(&g->powerUps[i], info, delta);
+    }
+  }
+  for (size_t i = 0; i < PROJECTILE_ARRAY_SIZE; i++) {
+    if (g->projectiles[i].exists) {
+      updateProjectile(&g->projectiles[i], info, delta);
     }
   }
   // Check for collisions
